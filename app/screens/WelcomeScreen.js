@@ -33,7 +33,7 @@ export default function WelcomeScreen({ navigation }) {
         <Button
           color={colors.pink}
           title="ENTER"
-          onPress={() => navigation.navigate("MatchScreen")}
+          onPress={() => navigation.navigate("UserScreen")}
         />
       </View>
     </View>

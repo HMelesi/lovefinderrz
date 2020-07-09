@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
-import {
-  NavigationContainer,
-  NavigationHelpersContext,
-} from "@react-navigation/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Image,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, Image, Button } from "react-native";
 
 import colors from "../config/colors";
 import characters from "../config/characters";
-import { Directions } from "react-native-gesture-handler";
 
 export default function MatchScreen({ navigation }) {
   const [number, setNumber] = useState(0);
