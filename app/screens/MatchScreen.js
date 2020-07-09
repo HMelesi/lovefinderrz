@@ -20,6 +20,8 @@ import { Directions } from "react-native-gesture-handler";
 export default function MatchScreen({ navigation }) {
   const [number, setNumber] = useState(0);
   const [character, setCharacter] = useState({});
+  const [disabled, setDisabled] = useState(false);
+  const [first, setFirst] = useState(true);
 
   useEffect(() => {
     let characterLength = characters.length;
@@ -27,29 +29,47 @@ export default function MatchScreen({ navigation }) {
   });
 
   const getRandomCharacter = () => {
-    const random = Math.floor(Math.random() * number);
-    const randomCharacter = characters[random];
-    setCharacter(randomCharacter);
+    const noMatches = {
+      id: 0,
+      name: "NO MATCHES",
+      line: "you have no matches :'(",
+      image: require("../assets/splash.png"),
+    };
+
+    const matchRandom = Math.random();
+
+    if (matchRandom < 0.1 && first === true) {
+      setCharacter(noMatches);
+      setDisabled(true);
+      setFirst(false);
+    } else {
+      const random = Math.floor(Math.random() * number);
+      const randomCharacter = characters[random];
+      setCharacter(randomCharacter);
+      setFirst(false);
+    }
   };
 
   return (
     <View style={styles.background}>
       {character === {} ? null : (
         <View style={styles.result}>
+          <Image source={character.image} />
           <Text style={styles.resultName}>{character.name}</Text>
           <Text style={styles.resultLine}>{character.line}</Text>
         </View>
       )}
       <View style={styles.buttons}>
         <Button
+          disabled={disabled}
           color={colors.heartred}
           accessibilityLabel="MATCH ME"
-          title="MATCH ME"
+          title={first ? "GET MY FIRST MATCH" : "NEW MATCH"}
           onPress={() => getRandomCharacter()}
         />
         <Button
           color={colors.lightblue}
-          accessibilityLabel="EXIT "
+          accessibilityLabel="EXIT"
           title="EXIT"
           onPress={() => navigation.navigate("Welcome")}
         />
