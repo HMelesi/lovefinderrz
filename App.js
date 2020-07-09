@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import MatchScreen from "./app/screens/MatchScreen";
+import UserScreen from "./app/screens/UserScreen";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
       >
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="MatchScreen" component={MatchScreen} />
+        <Stack.Screen name="UserScreen" component={UserScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
