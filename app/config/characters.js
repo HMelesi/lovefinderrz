@@ -1,15 +1,15 @@
 export default [
-  {
-    id: 1,
-    name: "Rick",
-    line:
-      'WHY ARE YOU ON HERE?! I hate to break it to you but what people call "love" is just a chemical reaction that compels animals to breed.',
-    image: require("../assets/rick.png"),
-  },
+  // {
+  //   id: 1,
+  //   name: "Rick",
+  //   line:
+  //     'WHY ARE YOU ON HERE?! I hate to break it to you but what people call "love" is just a chemical reaction that compels animals to breed.',
+  //   image: require("../assets/rick.png"),
+  // },
   {
     id: 2,
     name: "Noob-noob",
-    line: "GOD DAMN!",
+    line: "Goooodddd daaaammmn!",
     image: require("../assets/noob.png"),
   },
   {

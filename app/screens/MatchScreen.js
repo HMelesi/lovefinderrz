@@ -19,7 +19,6 @@ export default function MatchScreen({ navigation, route }) {
     setNumber(characterLength);
     const { user } = route.params;
     setSelectedUser(user);
-    // getRandomCharacter();
   });
 
   const getRandomCharacter = () => {
@@ -27,12 +26,17 @@ export default function MatchScreen({ navigation, route }) {
       id: 0,
       name: "NO MATCHES",
       line: "you have no matches :'(",
-      image: require("../assets/splash.png"),
+      image: require("../assets/nomatch.png"),
     };
 
     const matchRandom = Math.random();
 
-    if (matchRandom < 0.9 && first === true) {
+    if (matchRandom < 0.1 && first === true) {
+      setCharacter(noMatches);
+      setNoMatchBool(true);
+      setDisabled(true);
+      setFirst(false);
+    } else if (selectedUser.name === "Jerry") {
       setCharacter(noMatches);
       setNoMatchBool(true);
       setDisabled(true);
@@ -42,36 +46,58 @@ export default function MatchScreen({ navigation, route }) {
       const randomCharacter = characters[random];
       setCharacter(randomCharacter);
       setFirst(false);
-      console.log(character);
     }
   };
 
   return (
     <View style={noMatchBool ? styles.backgroundblack : styles.background}>
+      {noMatchBool ? (
+        <View style={styles.nomatchback}>
+          <View style={styles.norow}>
+            <Text style={styles.nomatchtext}>N</Text>
+            <Image
+              style={styles.skull}
+              source={require("../assets/skull.png")}
+            />
+          </View>
+          <Text style={styles.nomatchtext}>MATCHES</Text>
+        </View>
+      ) : (
+        <View style={styles.matchbutton}>
+          <Button
+            color={colors.heartred}
+            accessibilityLabel="MATCH ME"
+            title={first ? "GET MY FIRST MATCH" : "NEW MATCH"}
+            onPress={() => getRandomCharacter()}
+          />
+        </View>
+      )}
       <View style={styles.heart}>
         <Image source={selectedUser.image} style={styles.leftHeart} />
         <Image source={character.image} style={styles.rightHeart} />
       </View>
+      {noMatchBool ? null : (
+        <View style={styles.result}>
+          <Text style={styles.resultName}>{character.name}</Text>
+          <Text style={styles.resultLine}>{character.line}</Text>
+        </View>
+      )}
 
-      <View style={styles.result}>
-        <Text style={styles.resultName}>{character.name}</Text>
-        <Text style={styles.resultLine}>{character.line}</Text>
-      </View>
+      {noMatchBool ? (
+        <Image
+          style={styles.heartoverlay}
+          source={require("../assets/blackheartframe.png")}
+        />
+      ) : (
+        <Image
+          style={styles.heartoverlay}
+          source={require("../assets/heartframe.png")}
+        />
+      )}
 
-      <Image
-        style={styles.heartoverlay}
-        source={require("../assets/heartframe.png")}
-      />
       <View style={styles.buttons}>
         <Button
-          disabled={disabled}
           color={colors.heartred}
-          accessibilityLabel="MATCH ME"
-          title={first ? "GET MY FIRST MATCH" : "NEW MATCH"}
-          onPress={() => getRandomCharacter()}
-        />
-        <Button
-          color={colors.lightblue}
           accessibilityLabel="EXIT"
           title="EXIT"
           onPress={() => navigation.navigate("Welcome")}
@@ -95,13 +121,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttons: {
+    justifyContent: "space-between",
     position: "absolute",
-    bottom: 50,
+    bottom: 10,
   },
   heart: {
     flexDirection: "row",
     position: "absolute",
-    top: 140,
+    top: 200,
   },
   leftHeart: {
     height: 180,
@@ -116,8 +143,12 @@ const styles = StyleSheet.create({
     width: 300,
     resizeMode: "cover",
     position: "absolute",
-    top: 110,
+    top: 175,
     // marginRight: 5,
+  },
+  matchbutton: {
+    position: "absolute",
+    top: 100,
   },
   rightHeart: {
     height: 180,
@@ -130,12 +161,29 @@ const styles = StyleSheet.create({
   logotext: {
     color: colors.lightblue,
   },
+  nomatchback: {
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 60,
+    backgroundColor: "#ff0d00",
+    width: "100%",
+  },
+  nomatchtext: {
+    fontSize: 30,
+    fontWeight: "900",
+  },
+  norow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   result: {
     padding: 30,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    top: 350,
+    top: 390,
   },
   resultLine: {
     fontSize: 20,
@@ -147,5 +195,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "600",
     color: colors.lightblue,
+  },
+  skull: {
+    height: 23,
+    width: 18,
+    resizeMode: "cover",
   },
 });
