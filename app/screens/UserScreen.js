@@ -64,7 +64,7 @@ export default function UserScreen({ navigation }) {
           color={colors.heartred}
           accessibilityLabel="SEE MY MATCHES"
           title="SEE MY MATCHES"
-          onPress={() => navigation.navigate("MatchScreen")}
+          onPress={() => navigation.navigate("MatchScreen", { user: user })}
         />
         <Button
           color={colors.lightblue}

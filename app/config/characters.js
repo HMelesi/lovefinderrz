@@ -7,6 +7,12 @@ export default [
     image: require("../assets/rick.png"),
   },
   {
+    id: 2,
+    name: "Noob-noob",
+    line: "GOD DAMN!",
+    image: require("../assets/noob.png"),
+  },
+  {
     id: 6,
     name: "Birdperson",
     line: "It has been a challenging mating season for Birdperson.",
