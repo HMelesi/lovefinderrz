@@ -49,6 +49,14 @@ export default function MatchScreen({ navigation, route }) {
     }
   };
 
+  const handleIconTap = (icon) => {
+    if (icon === "fire") {
+      getRandomCharacter();
+    } else {
+      alert(`${icon} tapped`);
+    }
+  };
+
   return (
     <View style={noMatchBool ? styles.backgroundblack : styles.background}>
       {noMatchBool ? (
@@ -96,6 +104,32 @@ export default function MatchScreen({ navigation, route }) {
       )}
 
       <View style={styles.buttons}>
+        {noMatchBool || Object.keys(character).length === 0 ? null : (
+          <View style={styles.iconrow}>
+            <Image
+              onTouchStart={() => {
+                handleIconTap("message");
+              }}
+              style={styles.icon}
+              source={require("../assets/iconmsg.png")}
+            />
+            <Image
+              onTouchStart={() => {
+                handleIconTap("heart");
+              }}
+              style={styles.icon}
+              source={require("../assets/iconhrt.png")}
+            />
+            <Image
+              onTouchStart={() => {
+                handleIconTap("fire");
+              }}
+              style={styles.icon}
+              source={require("../assets/iconfr.png")}
+            />
+          </View>
+        )}
+
         <Button
           color={colors.heartred}
           accessibilityLabel="EXIT"
@@ -129,6 +163,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     top: 200,
+  },
+  icon: {
+    height: 50,
+    width: 50,
+    resizeMode: "cover",
+  },
+  iconrow: {
+    marginBottom: 20,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   leftHeart: {
     height: 180,
