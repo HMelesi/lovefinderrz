@@ -12,7 +12,7 @@ import {
   Image,
   Button,
 } from "react-native";
-import { Heart } from "react-native-shapes";
+import { Icon } from "react-native-elements";
 
 import colors from "../config/colors";
 import MatchScreen from "./MatchScreen";
@@ -21,12 +21,15 @@ import { BorderlessButton } from "react-native-gesture-handler";
 export default function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.background}>
-      <View style={styles.heartcontainer}>
-        <Heart color={colors.heartred} size={15} />
-      </View>
+      <Icon
+        style={styles.heartcontainer}
+        name="favorite"
+        color={colors.heartred}
+        size={200}
+      />
       <View style={styles.textlogocontainer}>
         <Text style={styles.logotext}>L</Text>
-        <Heart color={colors.heartred} size={2.5} />
+        <Icon name="favorite" color={colors.heartred} size={30} />
         <Text style={styles.logotext}>VEFINDERRZ</Text>
       </View>
       <View style={styles.base}>
