@@ -9,9 +9,11 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import MatchScreen from "./app/screens/MatchScreen";
 import UserScreen from "./app/screens/UserScreen";
 import HeartScreen from "./app/screens/HeartScreen";
+import ProfileScreen from "./app/screens/ProfileScreen";
 
 import Header from "./app/components/Header";
 import HeartButton from "./app/components/HeartButton";
+import ProfileButton from "./app/components/ProfileButton";
 
 import colors from "./app/config/colors";
 import { Colors } from "react-native/Libraries/NewAppScreen";
@@ -36,13 +38,7 @@ export default function App() {
           headerTitleStyle: {
             fontWeight: "bold",
           },
-          headerRight: () => (
-            <Button
-              onPress={() => alert("Profile pressed")}
-              title="Profile"
-              color="#fff"
-            />
-          ),
+          headerRight: () => <ProfileButton {...navigation} />,
           headerLeft: () => <HeartButton {...navigation} />,
         })}
       >
@@ -50,6 +46,7 @@ export default function App() {
         <Stack.Screen name="MatchScreen" component={MatchScreen} />
         <Stack.Screen name="UserScreen" component={UserScreen} />
         <Stack.Screen name="HeartScreen" component={HeartScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

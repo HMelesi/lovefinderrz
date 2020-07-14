@@ -9,13 +9,15 @@ import { Icon } from "react-native-elements";
 
 import colors from "../config/colors";
 
-export default function HeartButton(navigation) {
+export default function ProfileButton(navigation) {
   return (
     <Icon
       style={styles.container}
-      name="favorite"
+      name="person"
       color={colors.heartred}
-      onPress={() => navigation.navigate("HeartScreen")}
+      onPress={() => {
+        navigation.navigate("ProfileScreen");
+      }}
     />
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { Icon } from "react-native-elements";
 
 import colors from "../config/colors";
 import characters from "../config/characters";
@@ -19,6 +20,9 @@ export default function MatchScreen({ navigation, route }) {
     setNumber(characterLength);
     const { user } = route.params;
     setSelectedUser(user);
+    if (first) {
+      getRandomCharacter();
+    }
   });
 
   const getRandomCharacter = () => {
@@ -61,6 +65,10 @@ export default function MatchScreen({ navigation, route }) {
 
   return (
     <View style={noMatchBool ? styles.backgroundblack : styles.background}>
+      <View style={styles.heart}>
+        <Image source={selectedUser.image} style={styles.halfHeart} />
+        <Image source={character.image} style={styles.halfHeart} />
+      </View>
       {noMatchBool ? (
         <View style={styles.nomatchback}>
           <View style={styles.norow}>
@@ -73,20 +81,6 @@ export default function MatchScreen({ navigation, route }) {
           <Text style={styles.nomatchtext}>MATCHES</Text>
         </View>
       ) : (
-        <View style={styles.matchbutton}>
-          <Button
-            color={colors.heartred}
-            accessibilityLabel="MATCH ME"
-            title={first ? "GET MY FIRST MATCH" : "NEW MATCH"}
-            onPress={() => getRandomCharacter()}
-          />
-        </View>
-      )}
-      <View style={styles.heart}>
-        <Image source={selectedUser.image} style={styles.leftHeart} />
-        <Image source={character.image} style={styles.rightHeart} />
-      </View>
-      {noMatchBool ? null : (
         <View style={styles.result}>
           <Text style={styles.resultName}>{character.name}</Text>
           <Text style={styles.resultLine}>{character.line}</Text>
@@ -108,36 +102,35 @@ export default function MatchScreen({ navigation, route }) {
       <View style={styles.buttons}>
         {noMatchBool || Object.keys(character).length === 0 ? null : (
           <View style={styles.iconrow}>
-            <Image
-              onTouchStart={() => {
+            <Icon
+              style={styles.icon}
+              name="message"
+              color={colors.lightblue}
+              size={40}
+              onPress={() => {
                 handleIconTap("message");
               }}
-              style={styles.icon}
-              source={require("../assets/iconmsg.png")}
             />
-            <Image
-              onTouchStart={() => {
+            <Icon
+              style={styles.icon}
+              name="favorite"
+              color={colors.pink}
+              size={40}
+              onPress={() => {
                 handleIconTap("heart");
               }}
-              style={styles.icon}
-              source={require("../assets/iconhrt.png")}
             />
-            <Image
-              onTouchStart={() => {
+            <Icon
+              style={styles.icon}
+              name="thumb-down"
+              color={colors.heartred}
+              size={40}
+              onPress={() => {
                 handleIconTap("fire");
               }}
-              style={styles.icon}
-              source={require("../assets/iconfr.png")}
             />
           </View>
         )}
-
-        <Button
-          color={colors.heartred}
-          accessibilityLabel="EXIT"
-          title="EXIT"
-          onPress={() => navigation.navigate("Welcome")}
-        />
       </View>
     </View>
   );
@@ -164,7 +157,7 @@ const styles = StyleSheet.create({
   heart: {
     flexDirection: "row",
     position: "absolute",
-    top: 200,
+    top: 100,
   },
   icon: {
     height: 50,
@@ -177,11 +170,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
-  leftHeart: {
+  halfHeart: {
     height: 180,
     width: 140,
     resizeMode: "cover",
-
     margin: 5,
   },
   heartoverlay: {
@@ -190,19 +182,12 @@ const styles = StyleSheet.create({
     width: 300,
     resizeMode: "cover",
     position: "absolute",
-    top: 175,
+    top: 75,
     // marginRight: 5,
   },
   matchbutton: {
     position: "absolute",
     top: 100,
-  },
-  rightHeart: {
-    height: 180,
-    width: 140,
-    resizeMode: "cover",
-
-    margin: 5,
   },
 
   logotext: {
@@ -230,7 +215,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    top: 390,
+    top: 300,
   },
   resultLine: {
     fontSize: 20,
