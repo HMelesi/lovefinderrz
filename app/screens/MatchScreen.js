@@ -52,6 +52,8 @@ export default function MatchScreen({ navigation, route }) {
   const handleIconTap = (icon) => {
     if (icon === "fire") {
       getRandomCharacter();
+    } else if (icon === "heart") {
+      alert(character);
     } else {
       alert(`${icon} tapped`);
     }
