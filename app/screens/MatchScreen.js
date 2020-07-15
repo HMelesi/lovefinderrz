@@ -8,10 +8,12 @@ import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
 import characters from "../config/characters";
-import users from "../config/users";
 
 export default function MatchScreen({ navigation, route }) {
-  const userData = useContext(LoveContext).user;
+  const context = useContext(LoveContext);
+  const favorites = context.favorites;
+  const setFavorites = context.setFavorites;
+  const userData = context.user;
 
   const [number, setNumber] = useState(0);
   const [character, setCharacter] = useState({});
@@ -59,7 +61,9 @@ export default function MatchScreen({ navigation, route }) {
     if (icon === "fire") {
       getRandomCharacter();
     } else if (icon === "heart") {
-      alert(character);
+      const newFavorites = [...favorites, character];
+      setFavorites(newFavorites);
+      getRandomCharacter();
     } else {
       alert(`${icon} tapped`);
     }

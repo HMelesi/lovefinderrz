@@ -3,11 +3,18 @@ import "react-native-gesture-handler";
 import LoveContext from "./LoveContext";
 
 export default function LoveProvider(props) {
-  const [test, setTest] = useState("first string");
   const [user, setUser] = useState({});
+  const [favorites, setFavorites] = useState([]);
 
   return (
-    <LoveContext.Provider value={{ test: test, setTest, user: user, setUser }}>
+    <LoveContext.Provider
+      value={{
+        user: user,
+        setUser,
+        favorites: favorites,
+        setFavorites,
+      }}
+    >
       {props.children}
     </LoveContext.Provider>
   );
