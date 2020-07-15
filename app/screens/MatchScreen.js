@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { Icon } from "react-native-elements";
+
+import LoveContext from "../context/LoveContext.js";
+// import LoveProvider from "../context/LoveProvider.js";
 
 import colors from "../config/colors";
 import characters from "../config/characters";
 import users from "../config/users";
 
 export default function MatchScreen({ navigation, route }) {
+  const userData = useContext(LoveContext).user;
+
   const [number, setNumber] = useState(0);
   const [character, setCharacter] = useState({});
   const [disabled, setDisabled] = useState(false);
   const [first, setFirst] = useState(true);
-  const [selectedUser, setSelectedUser] = useState({});
   const [noMatchBool, setNoMatchBool] = useState(false);
 
   useEffect(() => {
     let characterLength = characters.length;
     setNumber(characterLength);
-    const { user } = route.params;
-    setSelectedUser(user);
     if (first) {
       getRandomCharacter();
     }
@@ -40,7 +42,7 @@ export default function MatchScreen({ navigation, route }) {
       setNoMatchBool(true);
       setDisabled(true);
       setFirst(false);
-    } else if (selectedUser.name === "Jerry") {
+    } else if (userData.name === "Jerry") {
       setCharacter(noMatches);
       setNoMatchBool(true);
       setDisabled(true);
@@ -64,75 +66,79 @@ export default function MatchScreen({ navigation, route }) {
   };
 
   return (
-    <View style={noMatchBool ? styles.backgroundblack : styles.background}>
-      <View style={styles.heart}>
-        <Image source={selectedUser.image} style={styles.halfHeart} />
-        <Image source={character.image} style={styles.halfHeart} />
-      </View>
-      {noMatchBool ? (
-        <View style={styles.nomatchback}>
-          <View style={styles.norow}>
-            <Text style={styles.nomatchtext}>N</Text>
+    <LoveContext.Consumer>
+      {(context) => (
+        <View style={noMatchBool ? styles.backgroundblack : styles.background}>
+          <View style={styles.heart}>
+            <Image source={context.user.image} style={styles.halfHeart} />
+            <Image source={character.image} style={styles.halfHeart} />
+          </View>
+          {noMatchBool ? (
+            <View style={styles.nomatchback}>
+              <View style={styles.norow}>
+                <Text style={styles.nomatchtext}>N</Text>
+                <Image
+                  style={styles.skull}
+                  source={require("../assets/skull.png")}
+                />
+              </View>
+              <Text style={styles.nomatchtext}>MATCHES</Text>
+            </View>
+          ) : (
+            <View style={styles.result}>
+              <Text style={styles.resultName}>{character.name}</Text>
+              <Text style={styles.resultLine}>{character.line}</Text>
+            </View>
+          )}
+
+          {noMatchBool ? (
             <Image
-              style={styles.skull}
-              source={require("../assets/skull.png")}
+              style={styles.heartoverlay}
+              source={require("../assets/blackheartframe.png")}
             />
+          ) : (
+            <Image
+              style={styles.heartoverlay}
+              source={require("../assets/heartframe.png")}
+            />
+          )}
+
+          <View style={styles.buttons}>
+            {noMatchBool || Object.keys(character).length === 0 ? null : (
+              <View style={styles.iconrow}>
+                <Icon
+                  style={styles.icon}
+                  name="message"
+                  color={colors.lightblue}
+                  size={40}
+                  onPress={() => {
+                    handleIconTap("message");
+                  }}
+                />
+                <Icon
+                  style={styles.icon}
+                  name="favorite"
+                  color={colors.pink}
+                  size={40}
+                  onPress={() => {
+                    handleIconTap("heart");
+                  }}
+                />
+                <Icon
+                  style={styles.icon}
+                  name="thumb-down"
+                  color={colors.heartred}
+                  size={40}
+                  onPress={() => {
+                    handleIconTap("fire");
+                  }}
+                />
+              </View>
+            )}
           </View>
-          <Text style={styles.nomatchtext}>MATCHES</Text>
-        </View>
-      ) : (
-        <View style={styles.result}>
-          <Text style={styles.resultName}>{character.name}</Text>
-          <Text style={styles.resultLine}>{character.line}</Text>
         </View>
       )}
-
-      {noMatchBool ? (
-        <Image
-          style={styles.heartoverlay}
-          source={require("../assets/blackheartframe.png")}
-        />
-      ) : (
-        <Image
-          style={styles.heartoverlay}
-          source={require("../assets/heartframe.png")}
-        />
-      )}
-
-      <View style={styles.buttons}>
-        {noMatchBool || Object.keys(character).length === 0 ? null : (
-          <View style={styles.iconrow}>
-            <Icon
-              style={styles.icon}
-              name="message"
-              color={colors.lightblue}
-              size={40}
-              onPress={() => {
-                handleIconTap("message");
-              }}
-            />
-            <Icon
-              style={styles.icon}
-              name="favorite"
-              color={colors.pink}
-              size={40}
-              onPress={() => {
-                handleIconTap("heart");
-              }}
-            />
-            <Icon
-              style={styles.icon}
-              name="thumb-down"
-              color={colors.heartred}
-              size={40}
-              onPress={() => {
-                handleIconTap("fire");
-              }}
-            />
-          </View>
-        )}
-      </View>
-    </View>
+    </LoveContext.Consumer>
   );
 }
 
