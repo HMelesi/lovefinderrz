@@ -30,7 +30,15 @@ export default function HeartScreen({ navigation }) {
         <View style={styles.matches}>
           {favorites.map((favorite) => {
             return (
-              <View style={styles.matchcard} key={favorite.id}>
+              <View
+                onTouchStart={() =>
+                  navigation.navigate("CharacterScreen", {
+                    character: favorite,
+                  })
+                }
+                style={styles.matchcard}
+                key={favorite.id}
+              >
                 <Image source={favorite.image} style={styles.image} />
                 <Text style={styles.nametext}>{favorite.name}</Text>
                 {/* <Icon
