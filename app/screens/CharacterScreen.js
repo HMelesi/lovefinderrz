@@ -19,7 +19,11 @@ export default function CharacterScreen({ navigation, route }) {
   });
 
   const handleIconTap = (icon) => {
-    alert(`${icon} tapped!`);
+    if (icon === "message") {
+      navigation.navigate("MessageScreen", { character: character });
+    } else {
+      alert(`${icon} tapped!`);
+    }
   };
 
   return (
