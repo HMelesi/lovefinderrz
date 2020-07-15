@@ -13,7 +13,6 @@ export default function ProfileScreen({ navigation }) {
       {(context) => (
         <View style={styles.background}>
           <Image style={styles.profileimage} source={context.user.image} />
-          <Icon padding={10} name="favorite" size={30} color={colors.pink} />
           <Text style={styles.titletext}>Name:</Text>
           <Text style={styles.contenttext}>{context.user.name}</Text>
           <Text style={styles.titletext}>About:</Text>
