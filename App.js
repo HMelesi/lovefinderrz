@@ -11,6 +11,8 @@ import UserScreen from "./app/screens/UserScreen";
 import HeartScreen from "./app/screens/HeartScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 
+import LoveProvider from "./app/context/LoveProvider";
+
 import Header from "./app/components/Header";
 import HeartButton from "./app/components/HeartButton";
 import ProfileButton from "./app/components/ProfileButton";
@@ -22,33 +24,35 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Welcome"
-        screenOptions={({ navigation, route }) => ({
-          headerTitle: <Header {...navigation} />,
-          title: "LOVEFINDERRZ",
-          headerStyle: {
-            backgroundColor: colors.pink,
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTintColor: colors.pink,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          headerRight: () => <ProfileButton {...navigation} />,
-          headerLeft: () => <HeartButton {...navigation} />,
-        })}
-      >
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="MatchScreen" component={MatchScreen} />
-        <Stack.Screen name="UserScreen" component={UserScreen} />
-        <Stack.Screen name="HeartScreen" component={HeartScreen} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <LoveProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Welcome"
+          screenOptions={({ navigation, route }) => ({
+            headerTitle: <Header {...navigation} />,
+            title: "LOVEFINDERRZ",
+            headerStyle: {
+              backgroundColor: colors.pink,
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 0,
+            },
+            headerTintColor: colors.pink,
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            headerRight: () => <ProfileButton {...navigation} />,
+            headerLeft: () => <HeartButton {...navigation} />,
+          })}
+        >
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="MatchScreen" component={MatchScreen} />
+          <Stack.Screen name="UserScreen" component={UserScreen} />
+          <Stack.Screen name="HeartScreen" component={HeartScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </LoveProvider>
   );
 }
 
