@@ -2,78 +2,95 @@ import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 
+import LoveContext from "../context/LoveContext.js";
+
 import colors from "../config/colors";
 import users from "../config/users";
 
 export default function UserScreen({ navigation }) {
-  const [user, setUser] = useState({});
   const [disabled, setDisabled] = useState(true);
-
-  useEffect(() => {});
 
   const handleUserTap = (choice) => {
     const character = users.filter((user) => user.name === choice);
     const characterObj = character[0];
-    setUser(characterObj);
     setDisabled(false);
+    return characterObj;
   };
 
   return (
-    <View style={styles.background}>
-      <View style={styles.characterselect}>
-        <Text style={styles.titletext}>WHO ARE YOU?</Text>
-        <View style={styles.imagerow}>
-          <Image
-            onTouchStart={() => {
-              handleUserTap("Summer");
-            }}
-            style={user.name === "Summer" ? styles.selected : styles.image}
-            source={require("../assets/summer.png")}
-          />
-          <Image
-            onTouchStart={() => {
-              handleUserTap("Beth");
-            }}
-            style={user.name === "Beth" ? styles.selected : styles.image}
-            source={require("../assets/beth.png")}
-          />
-        </View>
-        <View style={styles.imagerow}>
-          <Image
-            onTouchStart={() => {
-              handleUserTap("Jerry");
-            }}
-            style={user.name === "Jerry" ? styles.selected : styles.image}
-            source={require("../assets/jerry.png")}
-          />
-          <Image
-            onTouchStart={() => {
-              handleUserTap("Morty");
-            }}
-            style={user.name === "Morty" ? styles.selected : styles.image}
-            source={require("../assets/morty.png")}
-          />
-        </View>
+    <LoveContext.Consumer>
+      {(context) => (
+        <View style={styles.background}>
+          <View style={styles.characterselect}>
+            <Text style={styles.titletext}>WHO ARE YOU?</Text>
+            <View style={styles.imagerow}>
+              <Image
+                onTouchStart={() => {
+                  const characterObj = handleUserTap("Summer");
+                  context.setUser(characterObj);
+                }}
+                style={
+                  context.user.name === "Summer"
+                    ? styles.selected
+                    : styles.image
+                }
+                source={require("../assets/summer.png")}
+              />
+              <Image
+                onTouchStart={() => {
+                  const characterObj = handleUserTap("Beth");
+                  context.setUser(characterObj);
+                }}
+                style={
+                  context.user.name === "Beth" ? styles.selected : styles.image
+                }
+                source={require("../assets/beth.png")}
+              />
+            </View>
+            <View style={styles.imagerow}>
+              <Image
+                onTouchStart={() => {
+                  const characterObj = handleUserTap("Jerry");
+                  context.setUser(characterObj);
+                }}
+                style={
+                  context.user.name === "Jerry" ? styles.selected : styles.image
+                }
+                source={require("../assets/jerry.png")}
+              />
+              <Image
+                onTouchStart={() => {
+                  const characterObj = handleUserTap("Morty");
+                  context.setUser(characterObj);
+                }}
+                style={
+                  context.user.name === "Morty" ? styles.selected : styles.image
+                }
+                source={require("../assets/morty.png")}
+              />
+            </View>
 
-        <Text style={styles.userName}>{user.name}</Text>
-        <Text style={styles.userLine}>{user.line}</Text>
-      </View>
-      <View style={styles.buttons}>
-        <Button
-          disabled={disabled}
-          color={colors.heartred}
-          accessibilityLabel="SEE MY MATCHES"
-          title="SEE MY MATCHES"
-          onPress={() => navigation.navigate("MatchScreen", { user: user })}
-        />
-        <Button
-          color={colors.lightblue}
-          accessibilityLabel="EXIT"
-          title="EXIT"
-          onPress={() => navigation.navigate("Welcome")}
-        />
-      </View>
-    </View>
+            <Text style={styles.userName}>{context.user.name}</Text>
+            <Text style={styles.userLine}>{context.user.line}</Text>
+          </View>
+          <View style={styles.buttons}>
+            <Button
+              disabled={disabled}
+              color={colors.heartred}
+              accessibilityLabel="SEE MY MATCHES"
+              title="SEE MY MATCHES"
+              onPress={() => navigation.navigate("MatchScreen")}
+            />
+            <Button
+              color={colors.lightblue}
+              accessibilityLabel="EXIT"
+              title="EXIT"
+              onPress={() => navigation.navigate("Welcome")}
+            />
+          </View>
+        </View>
+      )}
+    </LoveContext.Consumer>
   );
 }
 
