@@ -204,11 +204,11 @@ const styles = StyleSheet.create({
     color: colors.lightblue,
   },
   nomatchback: {
-    padding: 20,
+    padding: 30,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    top: 60,
+    top: 350,
     backgroundColor: "#ff0d00",
     width: "100%",
   },
