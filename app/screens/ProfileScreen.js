@@ -2,27 +2,22 @@ import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 
+import LoveContext from "../context/LoveContext.js";
+
 import colors from "../config/colors";
 
 export default function ProfileScreen({ navigation }) {
-  const [user, setUser] = useState({});
-  const [disabled, setDisabled] = useState(true);
-
-  useEffect(() => {});
-
-  //   const handleUserTap = (choice) => {
-  // const character = users.filter((user) => user.name === choice);
-  // const characterObj = character[0];
-  // setUser(characterObj);
-  // setDisabled(false);
-  //   };
-
   return (
-    <View style={styles.background}>
-      <View>
-        <Text style={styles.titletext}>THIS IS YOUR PROFILE</Text>
-      </View>
-    </View>
+    <LoveContext.Consumer>
+      {(context) => (
+        <View style={styles.background}>
+          <View>
+            <Text style={styles.titletext}>THIS IS YOUR PROFILE</Text>
+            <Text style={styles.titletext}>{context.test}</Text>
+          </View>
+        </View>
+      )}
+    </LoveContext.Consumer>
   );
 }
 
