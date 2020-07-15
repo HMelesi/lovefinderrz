@@ -5,7 +5,6 @@ import {
   NavigationHelpersContext,
 } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
-import { Heart } from "react-native-shapes";
 
 import colors from "../config/colors";
 
