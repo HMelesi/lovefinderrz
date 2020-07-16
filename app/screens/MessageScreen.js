@@ -8,6 +8,9 @@ import {
   Button,
   TextInput,
   FlatList,
+  Keyboard,
+  TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import uuid from "react-native-uuid";
@@ -21,6 +24,7 @@ export default function MessageScreen({ navigation, route }) {
   const [character, setCharacter] = useState({});
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
+  const [key, setKey] = useState(false);
 
   useEffect(() => {
     setCharacter(route.params.character);
@@ -30,28 +34,32 @@ export default function MessageScreen({ navigation, route }) {
     setCurrentMessage(text);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (msg) => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const usermessageObj = {
       id: uuid.v1(),
-      text: event.nativeEvent.text,
+      text: msg,
       type: "user",
       time: getCurrentTime(),
     };
 
-    setMessages([...messages, usermessageObj]);
+    setMessages([usermessageObj, ...messages]);
     setCurrentMessage("");
+    Keyboard.dismiss();
 
-    await sleep(2000);
+    const matchRandom = Math.random();
+    if (matchRandom > 0.5) {
+      await sleep(2000);
 
-    const charactermessageObj = {
-      id: uuid.v1(),
-      text: "character message",
-      type: "character",
-      time: getCurrentTime(),
-    };
-    setMessages([...messages, usermessageObj, charactermessageObj]);
+      const charactermessageObj = {
+        id: uuid.v1(),
+        text: "character message",
+        type: "character",
+        time: getCurrentTime(),
+      };
+      setMessages([charactermessageObj, usermessageObj, ...messages]);
+    }
   };
 
   const Item = ({ message }) => (
@@ -90,24 +98,30 @@ export default function MessageScreen({ navigation, route }) {
               data={messages}
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
-              initialScrollIndex={messages.length - 1}
+              scrollsToTop={false}
+              inverted={-1}
             />
           </View>
-          {/* <View style={styles.charactermessage}>
-              <Text style={styles.messagetext}>hello there</Text>
-            </View> */}
 
-          <View style={styles.bottombar}>
-            <TextInput
-              placeholder="message"
-              style={styles.input}
-              style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-              onChangeText={(text) => onChangeText(text)}
-              value={currentMessage}
-              //   returnKeyType="My Custom button"
-              onSubmitEditing={(event) => handleSubmit(event)}
-            />
-          </View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={{ width: "100%", alignItems: "flex-end" }}
+            enabled={currentMessage === "" ? false : true}
+            keyboardVerticalOffset={60}
+          >
+            <View style={styles.bottombardown}>
+              <TextInput
+                placeholder="type message..."
+                style={styles.input}
+                onChangeText={(text) => onChangeText(text)}
+                value={currentMessage}
+                onBlur={(Keyboard.dismiss, setKey(false))}
+              />
+              <TouchableOpacity onPress={() => handleSubmit(currentMessage)}>
+                <Icon name="send" color={colors.lightblue} />
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
         </View>
       )}
     </LoveContext.Consumer>
@@ -118,12 +132,29 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: colors.navy,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
-  bottombar: {
-    position: "absolute",
-    bottom: 20,
+  bottombardown: {
+    // position: "absolute",
+    // bottom: 0,
+    // flex: 1,
+    backgroundColor: colors.navy,
+    width: "100%",
+    alignSelf: "stretch",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  input: {
+    backgroundColor: "#fff",
+    height: 40,
+    width: "70%",
+    borderColor: colors.lightblue,
+    borderWidth: 1,
+    paddingHorizontal: 10,
   },
   usermessage: {
     alignSelf: "flex-end",
