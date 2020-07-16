@@ -52,9 +52,12 @@ export default function MessageScreen({ navigation, route }) {
     if (matchRandom > 0.5) {
       await sleep(2000);
 
+      const numberPhrases = character.messages.length;
+      const messRandom = Math.floor(Math.random() * numberPhrases);
+
       const charactermessageObj = {
         id: uuid.v1(),
-        text: "character message",
+        text: character.messages[messRandom],
         type: "character",
         time: getCurrentTime(),
       };
