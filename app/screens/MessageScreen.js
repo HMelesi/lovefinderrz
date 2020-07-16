@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  TextInput,
+  FlatList,
+} from "react-native";
 import { Icon } from "react-native-elements";
+import uuid from "react-native-uuid";
+import getCurrentTime from "../utils/utils";
 
 import LoveContext from "../context/LoveContext.js";
 
@@ -20,10 +30,52 @@ export default function MessageScreen({ navigation, route }) {
     setCurrentMessage(text);
   };
 
-  const handleSubmit = (event) => {
-    setMessages([...messages, event.nativeEvent.text]);
+  const handleSubmit = async (event) => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const usermessageObj = {
+      id: uuid.v1(),
+      text: event.nativeEvent.text,
+      type: "user",
+      time: getCurrentTime(),
+    };
+
+    setMessages([...messages, usermessageObj]);
     setCurrentMessage("");
+
+    await sleep(2000);
+
+    const charactermessageObj = {
+      id: uuid.v1(),
+      text: "character message",
+      type: "character",
+      time: getCurrentTime(),
+    };
+    setMessages([...messages, usermessageObj, charactermessageObj]);
   };
+
+  const Item = ({ message }) => (
+    <View
+      style={
+        message.type === "user" ? styles.usermessage : styles.charactermessage
+      }
+    >
+      <View
+        style={
+          message.type === "user"
+            ? styles.usermessagetext
+            : styles.charactermessagetext
+        }
+      >
+        <Text style={styles.messagetext}>{message.text}</Text>
+      </View>
+      <View>
+        <Text style={styles.messagetime}>{message.time}</Text>
+      </View>
+    </View>
+  );
+
+  const renderItem = ({ item }) => <Item message={item} />;
 
   return (
     <LoveContext.Consumer>
@@ -33,18 +85,18 @@ export default function MessageScreen({ navigation, route }) {
             <Image style={styles.profileimage} source={character.image} />
             <Text style={styles.profiletext}>{character.name}</Text>
           </View>
-          <View style={styles.messagecontainer}>
-            <View style={styles.charactermessage}>
-              <Text style={styles.messagetext}>hello there</Text>
-            </View>
-            {messages.map((message) => {
-              return (
-                <View style={styles.usermessage}>
-                  <Text style={styles.messagetext}>{message}</Text>
-                </View>
-              );
-            })}
+          <View style={styles.messagescontainer}>
+            <FlatList
+              data={messages}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              initialScrollIndex={messages.length - 1}
+            />
           </View>
+          {/* <View style={styles.charactermessage}>
+              <Text style={styles.messagetext}>hello there</Text>
+            </View> */}
+
           <View style={styles.bottombar}>
             <TextInput
               placeholder="message"
@@ -55,12 +107,6 @@ export default function MessageScreen({ navigation, route }) {
               //   returnKeyType="My Custom button"
               onSubmitEditing={(event) => handleSubmit(event)}
             />
-            {/* <Button
-              title="say hi"
-              onPress={() => {
-                setMessages([...messages, "hi"]);
-              }}
-            /> */}
           </View>
         </View>
       )}
@@ -75,25 +121,44 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  bottombar: {
+    position: "absolute",
+    bottom: 20,
+  },
   usermessage: {
+    alignSelf: "flex-end",
+    alignItems: "flex-end",
+    margin: 5,
+  },
+  usermessagetext: {
     borderRadius: 20,
     backgroundColor: colors.heartred,
-    alignSelf: "flex-end",
-    padding: 20,
-    margin: 5,
+    padding: 15,
+    marginVertical: 5,
+  },
+  messagetime: {
+    borderRadius: 20,
+    marginHorizontal: 10,
+    color: "#999999",
+    fontSize: 10,
   },
   charactermessage: {
-    borderRadius: 20,
-    backgroundColor: colors.pink,
     alignSelf: "flex-start",
-    padding: 20,
+    alignItems: "flex-start",
     margin: 5,
   },
-  messagecontainer: {
+  charactermessagetext: {
+    borderRadius: 20,
+    backgroundColor: colors.pink,
+    padding: 15,
+    marginVertical: 5,
+  },
+  messagescontainer: {
+    position: "absolute",
+    top: 80,
     backgroundColor: "#fff",
     height: "70%",
     width: "100%",
-    padding: 10,
   },
   profileimage: {
     height: 30,
@@ -109,14 +174,14 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   topbar: {
-    // position: "absolute",
-    // top: 0,
+    position: "absolute",
+    top: 0,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   messagetext: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 15,
   },
 });

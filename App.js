@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Buffer } from "buffer";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import MatchScreen from "./app/screens/MatchScreen";
@@ -20,9 +21,9 @@ import HeartButton from "./app/components/HeartButton";
 import ProfileButton from "./app/components/ProfileButton";
 
 import colors from "./app/config/colors";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const Stack = createStackNavigator();
+global.Buffer = Buffer;
 
 export default function App() {
   return (
@@ -58,21 +59,4 @@ export default function App() {
       </NavigationContainer>
     </LoveProvider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
-{
-  /* <Header
-leftComponent={{ icon: "menu", color: "#fff" }}
-centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
-rightComponent={{ icon: "home", color: "#fff" }}
-/> */
 }
