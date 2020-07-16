@@ -26,7 +26,6 @@ export default function WelcomeScreen({ navigation }) {
   const setUser = context.setUser;
 
   const wipeData = () => {
-    setFavorites([]);
     setUser({});
   };
 
@@ -46,14 +45,10 @@ export default function WelcomeScreen({ navigation }) {
       <View style={styles.base}>
         <Button
           color={colors.pink}
-          title="ENTER"
+          title="LOGIN"
           onPress={() => navigation.navigate("UserScreen")}
         />
-        <Button
-          color={colors.pink}
-          title="WIPE DATA"
-          onPress={() => wipeData()}
-        />
+        <Button color={colors.pink} title="LOGOUT" onPress={() => wipeData()} />
       </View>
     </View>
   );

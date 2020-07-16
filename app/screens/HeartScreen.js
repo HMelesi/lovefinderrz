@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button, FlatList } from "react-native";
 import { Icon } from "react-native-elements";
 
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function HeartScreen({ navigation }) {
   const context = useContext(LoveContext);
-  const favorites = context.favorites;
-  const setFavorites = context.setFavorites;
+  const favorites = context.user.favorites;
 
   const [disabled, setDisabled] = useState(true);
 
@@ -23,34 +23,34 @@ export default function HeartScreen({ navigation }) {
   // setDisabled(false);
   //   };
 
+  const Item = ({ favorite }) => (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("CharacterScreen", {
+          character: favorite,
+        })
+      }
+      style={styles.matchcard}
+      key={favorite.id}
+    >
+      <Image source={favorite.image} style={styles.image} />
+      <Text style={styles.nametext}>{favorite.name}</Text>
+    </TouchableOpacity>
+  );
+
+  const renderItem = ({ item }) => <Item favorite={item} />;
+
   return (
     <View style={styles.background}>
       <View>
         <Text style={styles.titletext}>MATCHES</Text>
-        <View style={styles.matches}>
-          {favorites.map((favorite) => {
-            return (
-              <View
-                onTouchStart={() =>
-                  navigation.navigate("CharacterScreen", {
-                    character: favorite,
-                  })
-                }
-                style={styles.matchcard}
-                key={favorite.id}
-              >
-                <Image source={favorite.image} style={styles.image} />
-                <Text style={styles.nametext}>{favorite.name}</Text>
-                {/* <Icon
-                  style={styles.container}
-                  name="message"
-                  color={colors.lightblue}
-                  onPress={() => console.log(`message ${favorite.name}`)}
-                /> */}
-              </View>
-            );
-          })}
-        </View>
+        <FlatList
+          style={styles.matches}
+          data={favorites}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          scrollsToTop={false}
+        />
       </View>
     </View>
   );
