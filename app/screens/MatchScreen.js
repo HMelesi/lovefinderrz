@@ -11,8 +11,8 @@ import characters from "../config/characters";
 
 export default function MatchScreen({ navigation, route }) {
   const context = useContext(LoveContext);
-  const favorites = context.favorites;
-  const setFavorites = context.setFavorites;
+  const favorites = context.user.favorites;
+  // const setFavorites = context.setFavorites;
   const userData = context.user;
 
   const [number, setNumber] = useState(0);
@@ -20,14 +20,28 @@ export default function MatchScreen({ navigation, route }) {
   const [disabled, setDisabled] = useState(false);
   const [first, setFirst] = useState(true);
   const [noMatchBool, setNoMatchBool] = useState(false);
+  const [potentials, setPotentials] = useState(characters);
 
   useEffect(() => {
-    let characterLength = characters.length;
-    setNumber(characterLength);
+    let potentialLength = potentials.length;
+    setNumber(potentialLength);
     if (first) {
       getRandomCharacter();
     }
   });
+
+  const resetMatches = () => {
+    character.favorites = [];
+    setPotentials(characters);
+  };
+
+  const removeFromPotentials = (person) => {
+    const spreadPotentials = [...potentials];
+    const newPotentials = spreadPotentials.filter(
+      (potential) => potential.name !== person.name
+    );
+    setPotentials(newPotentials);
+  };
 
   const getRandomCharacter = () => {
     const noMatches = {
@@ -49,9 +63,11 @@ export default function MatchScreen({ navigation, route }) {
       setNoMatchBool(true);
       setDisabled(true);
       setFirst(false);
+    } else if (potentials.length === 0) {
+      alert("no more characters");
     } else {
       const random = Math.floor(Math.random() * number);
-      const randomCharacter = characters[random];
+      const randomCharacter = potentials[random];
       setCharacter(randomCharacter);
       setFirst(false);
     }
@@ -59,10 +75,12 @@ export default function MatchScreen({ navigation, route }) {
 
   const handleIconTap = (icon) => {
     if (icon === "fire") {
+      removeFromPotentials(character);
       getRandomCharacter();
     } else if (icon === "heart") {
       const newFavorites = [...favorites, character];
-      setFavorites(newFavorites);
+      userData.favorites = newFavorites;
+      removeFromPotentials(character);
       getRandomCharacter();
     } else {
       alert(`${icon} tapped`);
@@ -73,6 +91,7 @@ export default function MatchScreen({ navigation, route }) {
     <LoveContext.Consumer>
       {(context) => (
         <View style={noMatchBool ? styles.backgroundblack : styles.background}>
+          {/* <Button title="reset matches" onPress={() => resetMatches()} /> */}
           <View style={styles.heart}>
             <Image source={context.user.image} style={styles.halfHeart} />
             <Image source={character.image} style={styles.halfHeart} />
