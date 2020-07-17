@@ -74,7 +74,7 @@ export default function MatchScreen({ navigation, route }) {
   };
 
   const handleIconTap = (icon) => {
-    if (icon === "fire") {
+    if (icon === "no") {
       removeFromPotentials(character);
       getRandomCharacter();
     } else if (icon === "heart") {
@@ -82,8 +82,11 @@ export default function MatchScreen({ navigation, route }) {
       userData.favorites = newFavorites;
       removeFromPotentials(character);
       getRandomCharacter();
-    } else {
-      alert(`${icon} tapped`);
+    } else if (icon === "message") {
+      const newFavorites = [...favorites, character];
+      userData.favorites = newFavorites;
+      removeFromPotentials(character);
+      navigation.navigate("MessageScreen", { character: character });
     }
   };
 
@@ -153,7 +156,7 @@ export default function MatchScreen({ navigation, route }) {
                   color={colors.heartred}
                   size={40}
                   onPress={() => {
-                    handleIconTap("fire");
+                    handleIconTap("no");
                   }}
                 />
               </View>

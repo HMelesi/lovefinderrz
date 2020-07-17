@@ -93,10 +93,16 @@ export default function MessageScreen({ navigation, route }) {
     <LoveContext.Consumer>
       {(context) => (
         <View style={styles.background}>
-          <View style={styles.topbar}>
+          <TouchableOpacity
+            style={styles.topbar}
+            onPress={() =>
+              navigation.navigate("CharacterScreen", { character: character })
+            }
+          >
             <Image style={styles.profileimage} source={character.image} />
             <Text style={styles.profiletext}>{character.name}</Text>
-          </View>
+          </TouchableOpacity>
+
           <View style={styles.messagescontainer}>
             <FlatList
               data={messages}
@@ -199,6 +205,8 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 5,
+    borderColor: colors.heartred,
+    borderWidth: 1,
   },
   profiletext: {
     fontSize: 15,
@@ -206,7 +214,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlign: "left",
     alignSelf: "flex-start",
-    margin: 10,
+    margin: 5,
   },
   topbar: {
     position: "absolute",
