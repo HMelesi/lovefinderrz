@@ -11,12 +11,9 @@ export default function UserScreen({ navigation }) {
   const context = useContext(LoveContext);
   const users = context.allUsers;
 
-  const [disabled, setDisabled] = useState(true);
-
   const handleUserTap = (choice) => {
     const character = users.filter((user) => user.name === choice);
     const characterObj = character[0];
-    setDisabled(false);
     return characterObj;
   };
 
@@ -78,18 +75,18 @@ export default function UserScreen({ navigation }) {
           </View>
           <View style={styles.buttons}>
             <Button
-              disabled={disabled}
+              disabled={context.user.name === undefined}
               color={colors.heartred}
               accessibilityLabel="SEE MY MATCHES"
               title="SEE MY MATCHES"
               onPress={() => navigation.navigate("MatchScreen")}
             />
-            <Button
+            {/* <Button
               color={colors.lightblue}
               accessibilityLabel="EXIT"
               title="EXIT"
               onPress={() => navigation.navigate("Welcome")}
-            />
+            /> */}
           </View>
         </View>
       )}
@@ -106,7 +103,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     position: "absolute",
-    bottom: 50,
+    bottom: 30,
   },
   characterselect: { position: "absolute", top: 50 },
   image: {
@@ -125,6 +122,7 @@ const styles = StyleSheet.create({
     color: colors.lightblue,
     fontWeight: "900",
     textAlign: "center",
+    marginBottom: 20,
   },
   result: {
     padding: 30,

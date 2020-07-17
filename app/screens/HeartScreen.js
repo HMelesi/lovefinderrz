@@ -14,14 +14,9 @@ export default function HeartScreen({ navigation }) {
 
   const [disabled, setDisabled] = useState(true);
 
-  // useEffect(() => {});
+  // useEffect(() => {
 
-  //   const handleUserTap = (choice) => {
-  // const character = users.filter((user) => user.name === choice);
-  // const characterObj = character[0];
-  // setUser(characterObj);
-  // setDisabled(false);
-  //   };
+  // });
 
   const Item = ({ favorite }) => (
     <TouchableOpacity
@@ -31,10 +26,10 @@ export default function HeartScreen({ navigation }) {
         })
       }
       style={styles.matchcard}
-      key={favorite.id}
+      key={favorite.profile.id}
     >
-      <Image source={favorite.image} style={styles.image} />
-      <Text style={styles.nametext}>{favorite.name}</Text>
+      <Image source={favorite.profile.image} style={styles.image} />
+      <Text style={styles.nametext}>{favorite.profile.name}</Text>
     </TouchableOpacity>
   );
 

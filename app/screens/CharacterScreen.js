@@ -11,26 +11,27 @@ export default function CharacterScreen({ navigation, route }) {
   const context = useContext(LoveContext);
   const { user, setUser } = context;
 
-  const [character, setCharacter] = useState({});
+  const [characterProfile, setCharacterProfile] = useState({});
 
   useEffect(() => {
-    setCharacter(route.params.character);
+    const passedCharacter = route.params.character;
+    setCharacterProfile(passedCharacter.profile);
   });
 
   const handleIconTap = (icon) => {
     if (icon === "message") {
-      navigation.navigate("MessageScreen", { character: character });
+      navigation.navigate("MessageScreen", { name: characterProfile.name });
     } else if (icon === "delete") {
       Alert.alert(
         ":(",
-        `Are you sure you want to unmatch with ${character.name}?`,
+        `Are you sure you want to unmatch with ${characterProfile.name}?`,
         [
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel",
           },
-          { text: "Yes please", onPress: () => unmatch(character) },
+          { text: "Yes please", onPress: () => unmatch(characterProfile) },
         ],
         { cancelable: false }
       );
@@ -40,21 +41,20 @@ export default function CharacterScreen({ navigation, route }) {
   const unmatch = (fave) => {
     const newFaves = [...user.favorites];
     const finalFaves = newFaves.filter((person) => {
-      return person.name !== fave.name;
+      return person.profile.name !== fave.name;
     });
-    const newUser = { ...user };
-    newUser.favorites = finalFaves;
-    setUser(newUser);
+    user.favorites = finalFaves;
+    setUser(user);
     navigation.navigate("HeartScreen");
   };
 
   return (
     <View style={styles.background}>
-      <Image style={styles.profileimage} source={character.image} />
+      <Image style={styles.profileimage} source={characterProfile.image} />
       <Text style={styles.titletext}>Name:</Text>
-      <Text style={styles.contenttext}>{character.name}</Text>
+      <Text style={styles.contenttext}>{characterProfile.name}</Text>
       <Text style={styles.titletext}>About:</Text>
-      <Text style={styles.contenttext}>{character.line}</Text>
+      <Text style={styles.contenttext}>{characterProfile.line}</Text>
       <View style={styles.actions}>
         <Icon
           style={styles.icon}

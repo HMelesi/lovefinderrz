@@ -30,10 +30,10 @@ export default function MatchScreen({ navigation, route }) {
     }
   });
 
-  const resetMatches = () => {
-    character.favorites = [];
-    setPotentials(characters);
-  };
+  // const resetMatches = () => {
+  //   character.favorites = [];
+  //   setPotentials(characters);
+  // };
 
   const removeFromPotentials = (person) => {
     const spreadPotentials = [...potentials];
@@ -80,12 +80,13 @@ export default function MatchScreen({ navigation, route }) {
     } else if (icon === "heart") {
       let checkFavorites = [...favorites];
       checkFavorites = checkFavorites.filter((fave) => {
-        return fave.name !== character.name;
+        return fave.profile.name !== character.name;
       });
 
       if (checkFavorites.length === favorites.length) {
         removeFromPotentials(character);
-        const newFavorites = [...favorites, character];
+        const newFaveObj = { profile: character };
+        const newFavorites = [...favorites, newFaveObj];
         userData.favorites = newFavorites;
         getRandomCharacter();
       } else {
@@ -93,9 +94,10 @@ export default function MatchScreen({ navigation, route }) {
       }
     } else if (icon === "message") {
       removeFromPotentials(character);
-      const newFavorites = [...favorites, character];
+      const newFaveObj = { profile: character };
+      const newFavorites = [...favorites, newFaveObj];
       userData.favorites = newFavorites;
-      navigation.navigate("MessageScreen", { character: character });
+      navigation.navigate("MessageScreen", { name: character.name });
     }
   };
 
