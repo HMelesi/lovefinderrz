@@ -49,7 +49,8 @@ export default function MessageScreen({ navigation, route }) {
     Keyboard.dismiss();
 
     const matchRandom = Math.random();
-    if (matchRandom > 0.5) {
+
+    if (matchRandom > 0.4) {
       await sleep(2000);
 
       const numberPhrases = character.messages.length;
