@@ -17,16 +17,21 @@ import { Icon } from "react-native-elements";
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
+import users from "../config/users";
 import MatchScreen from "./MatchScreen";
 import { BorderlessButton } from "react-native-gesture-handler";
 
 export default function WelcomeScreen({ navigation }) {
   const context = useContext(LoveContext);
-  const setFavorites = context.setFavorites;
+  const setAllUsers = context.setAllUsers;
   const setUser = context.setUser;
 
-  const wipeData = () => {
+  const logout = () => {
     setUser({});
+  };
+
+  const wipeData = () => {
+    setAllUsers(users);
   };
 
   return (
@@ -48,7 +53,12 @@ export default function WelcomeScreen({ navigation }) {
           title="LOGIN"
           onPress={() => navigation.navigate("UserScreen")}
         />
-        <Button color={colors.pink} title="LOGOUT" onPress={() => wipeData()} />
+        <Button color={colors.pink} title="LOGOUT" onPress={() => logout()} />
+        <Button
+          color={colors.pink}
+          title="WIPE ALL DATA"
+          onPress={() => wipeData()}
+        />
       </View>
     </View>
   );

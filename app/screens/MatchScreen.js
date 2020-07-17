@@ -78,14 +78,23 @@ export default function MatchScreen({ navigation, route }) {
       removeFromPotentials(character);
       getRandomCharacter();
     } else if (icon === "heart") {
-      const newFavorites = [...favorites, character];
-      userData.favorites = newFavorites;
-      removeFromPotentials(character);
-      getRandomCharacter();
+      let checkFavorites = [...favorites];
+      checkFavorites = checkFavorites.filter((fave) => {
+        return fave.name !== character.name;
+      });
+
+      if (checkFavorites.length === favorites.length) {
+        removeFromPotentials(character);
+        const newFavorites = [...favorites, character];
+        userData.favorites = newFavorites;
+        getRandomCharacter();
+      } else {
+        console.log("already matched");
+      }
     } else if (icon === "message") {
+      removeFromPotentials(character);
       const newFavorites = [...favorites, character];
       userData.favorites = newFavorites;
-      removeFromPotentials(character);
       navigation.navigate("MessageScreen", { character: character });
     }
   };
@@ -186,6 +195,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
   },
+
   heart: {
     flexDirection: "row",
     position: "absolute",

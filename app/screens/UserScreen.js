@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
-import users from "../config/users";
+// import users from "../config/users";
 
 export default function UserScreen({ navigation }) {
+  const context = useContext(LoveContext);
+  const users = context.allUsers;
+
   const [disabled, setDisabled] = useState(true);
 
   const handleUserTap = (choice) => {
