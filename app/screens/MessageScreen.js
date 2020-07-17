@@ -22,12 +22,22 @@ import colors from "../config/colors";
 
 export default function MessageScreen({ navigation, route }) {
   const [character, setCharacter] = useState({});
+  const [characterProfile, setCharacterProfile] = useState({});
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [key, setKey] = useState(false);
 
+  const context = useContext(LoveContext);
+  const favorites = context.user.favorites;
+
   useEffect(() => {
-    setCharacter(route.params.character);
+    const { name } = route.params;
+    const newFavorites = [...favorites];
+    const filterFavorites = newFavorites.filter((fave) => {
+      return fave.profile.name === name;
+    });
+    setCharacter(filterFavorites[0]);
+    setCharacterProfile(filterFavorites[0].profile);
   });
 
   const onChangeText = (text) => {
@@ -53,12 +63,12 @@ export default function MessageScreen({ navigation, route }) {
     if (matchRandom > 0.4) {
       await sleep(2000);
 
-      const numberPhrases = character.messages.length;
+      const numberPhrases = characterProfile.messages.length;
       const messRandom = Math.floor(Math.random() * numberPhrases);
 
       const charactermessageObj = {
         id: uuid.v1(),
-        text: character.messages[messRandom],
+        text: characterProfile.messages[messRandom],
         type: "character",
         time: getCurrentTime(),
       };
@@ -99,8 +109,11 @@ export default function MessageScreen({ navigation, route }) {
               navigation.navigate("CharacterScreen", { character: character })
             }
           >
-            <Image style={styles.profileimage} source={character.image} />
-            <Text style={styles.profiletext}>{character.name}</Text>
+            <Image
+              style={styles.profileimage}
+              source={characterProfile.image}
+            />
+            <Text style={styles.profiletext}>{characterProfile.name}</Text>
           </TouchableOpacity>
 
           <View style={styles.messagescontainer}>
