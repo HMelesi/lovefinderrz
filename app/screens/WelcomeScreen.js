@@ -24,11 +24,6 @@ import { BorderlessButton } from "react-native-gesture-handler";
 export default function WelcomeScreen({ navigation }) {
   const context = useContext(LoveContext);
   const setAllUsers = context.setAllUsers;
-  const setUser = context.setUser;
-
-  const logout = () => {
-    setUser({});
-  };
 
   const wipeData = () => {
     setAllUsers(users);
@@ -53,7 +48,7 @@ export default function WelcomeScreen({ navigation }) {
           title="LOGIN"
           onPress={() => navigation.navigate("UserScreen")}
         />
-        <Button color={colors.pink} title="LOGOUT" onPress={() => logout()} />
+
         <Button
           color={colors.pink}
           title="WIPE ALL DATA"
@@ -73,7 +68,7 @@ const styles = StyleSheet.create({
   },
   base: {
     position: "absolute",
-    bottom: 50,
+    bottom: 30,
   },
   heartcontainer: {
     padding: 10,

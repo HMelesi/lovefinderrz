@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { Icon } from "react-native-elements";
@@ -6,8 +6,17 @@ import { Icon } from "react-native-elements";
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
+import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 export default function ProfileScreen({ navigation }) {
+  const context = useContext(LoveContext);
+  const { setUser } = context;
+
+  const logout = () => {
+    setUser({});
+    navigation.navigate("Welcome");
+  };
+
   return (
     <LoveContext.Consumer>
       {(context) => (
@@ -17,6 +26,11 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.contenttext}>{context.user.name}</Text>
           <Text style={styles.titletext}>About:</Text>
           <Text style={styles.contenttext}>{context.user.line}</Text>
+          <Button
+            color={colors.heartred}
+            title="LOGOUT"
+            onPress={() => logout()}
+          />
         </View>
       )}
     </LoveContext.Consumer>
