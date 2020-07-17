@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button, Alert } from "react-native";
 import { Icon } from "react-native-elements";
 
 import LoveContext from "../context/LoveContext.js";
@@ -9,8 +9,7 @@ import colors from "../config/colors";
 
 export default function CharacterScreen({ navigation, route }) {
   const context = useContext(LoveContext);
-  const favorites = context.favorites;
-  const setFavorites = context.setFavorites;
+  const { user, setUser } = context;
 
   const [character, setCharacter] = useState({});
 
@@ -21,9 +20,32 @@ export default function CharacterScreen({ navigation, route }) {
   const handleIconTap = (icon) => {
     if (icon === "message") {
       navigation.navigate("MessageScreen", { character: character });
-    } else {
-      alert(`${icon} tapped!`);
+    } else if (icon === "delete") {
+      Alert.alert(
+        ":(",
+        `Are you sure you want to unmatch with ${character.name}?`,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "Yes please", onPress: () => unmatch(character) },
+        ],
+        { cancelable: false }
+      );
     }
+  };
+
+  const unmatch = (fave) => {
+    const newFaves = [...user.favorites];
+    const finalFaves = newFaves.filter((person) => {
+      return person.name !== fave.name;
+    });
+    const newUser = { ...user };
+    newUser.favorites = finalFaves;
+    setUser(newUser);
+    navigation.navigate("HeartScreen");
   };
 
   return (
@@ -48,9 +70,7 @@ export default function CharacterScreen({ navigation, route }) {
           name="delete"
           color={colors.heartred}
           size={40}
-          onPress={() => {
-            handleIconTap("delete");
-          }}
+          onPress={() => handleIconTap("delete")}
         />
       </View>
     </View>
