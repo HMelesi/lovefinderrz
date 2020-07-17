@@ -64,7 +64,7 @@ export default function MatchScreen({ navigation, route }) {
       setDisabled(true);
       setFirst(false);
     } else if (potentials.length === 0) {
-      alert("no more characters");
+      alert("No more matches! :(");
     } else {
       const random = Math.floor(Math.random() * number);
       const randomCharacter = potentials[random];
