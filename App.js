@@ -13,6 +13,7 @@ import HeartScreen from "./app/screens/HeartScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 import CharacterScreen from "./app/screens/CharacterScreen";
 import MessageScreen from "./app/screens/MessageScreen";
+import NoMoreMatchesScreen from "./app/screens/NoMoreMatchesScreen";
 
 import LoveProvider from "./app/context/LoveProvider";
 
@@ -55,6 +56,10 @@ export default function App() {
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="CharacterScreen" component={CharacterScreen} />
           <Stack.Screen name="MessageScreen" component={MessageScreen} />
+          <Stack.Screen
+            name="NoMoreMatchesScreen"
+            component={NoMoreMatchesScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </LoveProvider>
