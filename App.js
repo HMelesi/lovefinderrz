@@ -1,6 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React from "react";
+import { Platform } from "react-native";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -32,7 +31,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Welcome"
-          screenOptions={({ navigation, route }) => ({
+          screenOptions={({ navigation }) => ({
             headerTitle: <Header {...navigation} />,
             title: "LOVEFINDERRZ",
             headerStyle: {
@@ -40,6 +39,7 @@ export default function App() {
               elevation: 0,
               shadowOpacity: 0,
               borderBottomWidth: 0,
+              // paddingTop: Platform.OS === "android" ? 25 : 0,
             },
             headerTintColor: colors.pink,
             headerTitleStyle: {
@@ -49,9 +49,17 @@ export default function App() {
             headerLeft: () => <HeartButton {...navigation} />,
           })}
         >
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+            options={{ header: () => null }}
+          />
           <Stack.Screen name="MatchScreen" component={MatchScreen} />
-          <Stack.Screen name="UserScreen" component={UserScreen} />
+          <Stack.Screen
+            name="UserScreen"
+            component={UserScreen}
+            options={{ header: () => null }}
+          />
           <Stack.Screen name="HeartScreen" component={HeartScreen} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="CharacterScreen" component={CharacterScreen} />

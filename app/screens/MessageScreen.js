@@ -5,12 +5,13 @@ import {
   Text,
   View,
   Image,
-  Button,
   TextInput,
   FlatList,
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import uuid from "react-native-uuid";
@@ -72,6 +73,7 @@ export default function MessageScreen({ navigation, route }) {
         type: "character",
         time: getCurrentTime(),
       };
+
       setMessages([charactermessageObj, usermessageObj, ...messages]);
     }
   };
@@ -102,7 +104,7 @@ export default function MessageScreen({ navigation, route }) {
   return (
     <LoveContext.Consumer>
       {(context) => (
-        <View style={styles.background}>
+        <SafeAreaView style={styles.background}>
           <TouchableOpacity
             style={styles.topbar}
             onPress={() =>
@@ -145,7 +147,7 @@ export default function MessageScreen({ navigation, route }) {
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
-        </View>
+        </SafeAreaView>
       )}
     </LoveContext.Consumer>
   );
@@ -157,11 +159,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   bottombardown: {
-    // position: "absolute",
-    // bottom: 0,
-    // flex: 1,
     backgroundColor: colors.navy,
     width: "100%",
     alignSelf: "stretch",
@@ -209,17 +209,18 @@ const styles = StyleSheet.create({
   },
   messagescontainer: {
     position: "absolute",
-    top: 80,
+    top: 75,
     backgroundColor: "#fff",
-    height: "70%",
+    paddingBottom: 5,
+    height: "75%",
     width: "100%",
   },
   profileimage: {
-    height: 30,
-    width: 30,
+    height: 35,
+    width: 35,
     borderRadius: 5,
     borderColor: colors.heartred,
-    borderWidth: 1,
+    borderWidth: 2,
   },
   profiletext: {
     fontSize: 15,
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlign: "left",
     alignSelf: "flex-start",
-    margin: 5,
+    marginTop: 5,
   },
   topbar: {
     position: "absolute",

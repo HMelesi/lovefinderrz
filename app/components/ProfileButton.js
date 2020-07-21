@@ -1,10 +1,6 @@
 import React from "react";
 import "react-native-gesture-handler";
-import {
-  NavigationContainer,
-  NavigationHelpersContext,
-} from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 
 import colors from "../config/colors";

@@ -1,5 +1,9 @@
 export default function getCurrentTime() {
   const today = new Date();
-  const time = today.getHours() + ":" + today.getMinutes();
+  let minutes = today.getMinutes();
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  const time = today.getHours() + ":" + minutes;
   return time;
 }

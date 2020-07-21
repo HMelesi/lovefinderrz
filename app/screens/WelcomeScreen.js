@@ -1,25 +1,12 @@
 import React, { useContext } from "react";
 import "react-native-gesture-handler";
-import {
-  NavigationContainer,
-  NavigationHelpersContext,
-} from "@react-navigation/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Image,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, Button, SafeAreaView } from "react-native";
 import { Icon } from "react-native-elements";
 
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
 import users from "../config/users";
-import MatchScreen from "./MatchScreen";
-import { BorderlessButton } from "react-native-gesture-handler";
 
 export default function WelcomeScreen({ navigation }) {
   const context = useContext(LoveContext);
@@ -34,7 +21,7 @@ export default function WelcomeScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.background}>
+    <SafeAreaView style={styles.background}>
       <Icon
         style={styles.heartcontainer}
         name="favorite"
@@ -49,7 +36,7 @@ export default function WelcomeScreen({ navigation }) {
       <View style={styles.base}>
         <Button
           color={colors.pink}
-          title="LOGIN"
+          title="ENTER"
           onPress={() => navigation.navigate("UserScreen")}
         />
 
@@ -59,7 +46,7 @@ export default function WelcomeScreen({ navigation }) {
           onPress={() => wipeData()}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

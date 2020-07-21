@@ -1,11 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  SafeAreaView,
+  Platform,
+} from "react-native";
 
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
-// import users from "../config/users";
 
 export default function UserScreen({ navigation }) {
   const context = useContext(LoveContext);
@@ -20,7 +27,7 @@ export default function UserScreen({ navigation }) {
   return (
     <LoveContext.Consumer>
       {(context) => (
-        <View style={styles.background}>
+        <SafeAreaView style={styles.background}>
           <View style={styles.characterselect}>
             <Text style={styles.titletext}>WHO ARE YOU?</Text>
             <View style={styles.imagerow}>
@@ -77,18 +84,12 @@ export default function UserScreen({ navigation }) {
             <Button
               disabled={context.user.name === undefined}
               color={colors.heartred}
-              accessibilityLabel="SEE MY MATCHES"
-              title="SEE MY MATCHES"
+              accessibilityLabel="LOGIN"
+              title="LOGIN"
               onPress={() => navigation.navigate("MatchScreen")}
             />
-            {/* <Button
-              color={colors.lightblue}
-              accessibilityLabel="EXIT"
-              title="EXIT"
-              onPress={() => navigation.navigate("Welcome")}
-            /> */}
           </View>
-        </View>
+        </SafeAreaView>
       )}
     </LoveContext.Consumer>
   );
@@ -100,12 +101,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   buttons: {
     position: "absolute",
     bottom: 30,
   },
-  characterselect: { position: "absolute", top: 50 },
+  characterselect: { position: "absolute", top: 100 },
   image: {
     height: 120,
     width: 120,

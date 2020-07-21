@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Platform,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 import { Icon } from "react-native-elements";
 
 import LoveContext from "../context/LoveContext.js";
@@ -49,7 +57,7 @@ export default function CharacterScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.background}>
+    <SafeAreaView style={styles.background}>
       <Image style={styles.profileimage} source={characterProfile.image} />
       <Text style={styles.titletext}>Name:</Text>
       <Text style={styles.contenttext}>{characterProfile.name}</Text>
@@ -73,7 +81,7 @@ export default function CharacterScreen({ navigation, route }) {
           onPress={() => handleIconTap("delete")}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -89,7 +97,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 30,
+    paddingHorizontal: 30,
+    paddingBottom: 30,
+    paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   icon: {
     height: 40,
