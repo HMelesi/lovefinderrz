@@ -20,7 +20,7 @@ Users can:
 
 ## Published App
 
-This app is published on Expo at:
+This app is published on Expo at: https://exp.host/@hmelesi/lovefinderrz
 
 ## Screenshots
 
