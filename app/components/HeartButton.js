@@ -11,7 +11,7 @@ export default function HeartButton(navigation) {
       style={styles.container}
       name="favorite"
       color={colors.heartred}
-      onPress={() => navigation.navigate("HeartScreen")}
+      onPress={() => navigation.navigate("HeartScreen", { remove: null })}
     />
   );
 }

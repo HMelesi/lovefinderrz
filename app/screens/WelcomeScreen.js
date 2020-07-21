@@ -33,15 +33,16 @@ export default function WelcomeScreen({ navigation }) {
         <Icon name="favorite" color={colors.heartred} size={30} />
         <Text style={styles.logotext}>VEFINDERRZ</Text>
       </View>
-      <View style={styles.base}>
+      <View style={styles.container}>
         <Button
           color={colors.pink}
           title="ENTER"
           onPress={() => navigation.navigate("UserScreen")}
         />
-
+      </View>
+      <View style={styles.base}>
         <Button
-          color={colors.pink}
+          color={colors.lightblue}
           title="WIPE ALL DATA"
           onPress={() => wipeData()}
         />
@@ -60,6 +61,9 @@ const styles = StyleSheet.create({
   base: {
     position: "absolute",
     bottom: 30,
+  },
+  container: {
+    paddingVertical: 10,
   },
   heartcontainer: {
     padding: 10,

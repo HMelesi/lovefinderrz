@@ -155,17 +155,19 @@ export default function MatchScreen({ navigation }) {
           )}
 
           {noMatchBool || Object.keys(character).length === 0 ? (
-            <View style={styles.matchbutton}>
-              <Icon name="favorite" color={colors.heartred} size={20} />
-              <Button
-                color={colors.pink}
-                title="SEE MY MATCHES"
-                onPress={() => {
-                  getRandomCharacter();
-                }}
-              />
-              <Icon name="favorite" color={colors.heartred} size={20} />
-            </View>
+            noMatchBool ? null : (
+              <View style={styles.matchbutton}>
+                <Icon name="favorite" color={colors.heartred} size={20} />
+                <Button
+                  color={colors.pink}
+                  title="SEE MY MATCHES"
+                  onPress={() => {
+                    getRandomCharacter();
+                  }}
+                />
+                <Icon name="favorite" color={colors.heartred} size={20} />
+              </View>
+            )
           ) : (
             <View style={styles.buttons}>
               <View style={styles.iconrow}>

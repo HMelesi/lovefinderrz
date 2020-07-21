@@ -39,7 +39,8 @@ export default function MessageScreen({ navigation, route }) {
     });
     setCharacter(filterFavorites[0]);
     setCharacterProfile(filterFavorites[0].profile);
-  });
+    setMessages([]);
+  }, []);
 
   const onChangeText = (text) => {
     setCurrentMessage(text);

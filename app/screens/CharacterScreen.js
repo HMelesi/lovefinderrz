@@ -53,7 +53,7 @@ export default function CharacterScreen({ navigation, route }) {
     });
     user.favorites = finalFaves;
     setUser(user);
-    navigation.navigate("HeartScreen");
+    navigation.navigate("HeartScreen", { remove: characterProfile });
   };
 
   return (
