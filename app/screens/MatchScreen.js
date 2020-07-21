@@ -1,23 +1,28 @@
-import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  SafeAreaView,
+  Platform,
+} from "react-native";
 import { Icon } from "react-native-elements";
 
 import LoveContext from "../context/LoveContext.js";
-// import LoveProvider from "../context/LoveProvider.js";
 
 import colors from "../config/colors";
 import characters from "../config/characters";
 
-export default function MatchScreen({ navigation, route }) {
+export default function MatchScreen({ navigation }) {
   const context = useContext(LoveContext);
   const favorites = context.user.favorites;
-  // const setFavorites = context.setFavorites;
   const userData = context.user;
 
   const [number, setNumber] = useState(0);
   const [character, setCharacter] = useState({});
-  const [disabled, setDisabled] = useState(false);
   const [first, setFirst] = useState(true);
   const [noMatchBool, setNoMatchBool] = useState(false);
   const [potentials, setPotentials] = useState([]);
@@ -65,12 +70,10 @@ export default function MatchScreen({ navigation, route }) {
     if (matchRandom < 0.1 && first === true) {
       setCharacter(noMatches);
       setNoMatchBool(true);
-      setDisabled(true);
       setFirst(false);
     } else if (userData.name === "Jerry") {
       setCharacter(noMatches);
       setNoMatchBool(true);
-      setDisabled(true);
       setFirst(false);
     } else if (potentials.length === 0) {
       navigation.navigate("NoMoreMatchesScreen");
@@ -98,19 +101,25 @@ export default function MatchScreen({ navigation, route }) {
         console.log("already matched");
       }
     } else if (icon === "message") {
-      removeFromPotentials(character);
-      const newFaveObj = { profile: character };
-      const newFavorites = [...favorites, newFaveObj];
-      userData.favorites = newFavorites;
-      navigation.navigate("MessageScreen", { name: character.name });
+      if (checkFavorites(character)) {
+        removeFromPotentials(character);
+        const newFaveObj = { profile: character };
+        const newFavorites = [...favorites, newFaveObj];
+        userData.favorites = newFavorites;
+        navigation.navigate("MessageScreen", { name: character.name });
+      } else {
+        removeFromPotentials(character);
+        navigation.navigate("MessageScreen", { name: character.name });
+      }
     }
   };
 
   return (
     <LoveContext.Consumer>
       {(context) => (
-        <View style={noMatchBool ? styles.backgroundblack : styles.background}>
-          {/* <Button title="reset matches" onPress={() => resetMatches()} /> */}
+        <SafeAreaView
+          style={noMatchBool ? styles.backgroundblack : styles.background}
+        >
           <View style={styles.heart}>
             <Image source={context.user.image} style={styles.halfHeart} />
             <Image source={character.image} style={styles.halfHeart} />
@@ -145,18 +154,20 @@ export default function MatchScreen({ navigation, route }) {
             />
           )}
 
-          <View style={styles.buttons}>
-            {noMatchBool || Object.keys(character).length === 0 ? (
-              <Icon
-                style={styles.icon}
-                name="favorite"
-                color={colors.lightblue}
-                size={40}
+          {noMatchBool || Object.keys(character).length === 0 ? (
+            <View style={styles.matchbutton}>
+              <Icon name="favorite" color={colors.heartred} size={20} />
+              <Button
+                color={colors.pink}
+                title="SEE MY MATCHES"
                 onPress={() => {
                   getRandomCharacter();
                 }}
               />
-            ) : (
+              <Icon name="favorite" color={colors.heartred} size={20} />
+            </View>
+          ) : (
+            <View style={styles.buttons}>
               <View style={styles.iconrow}>
                 <Icon
                   style={styles.icon}
@@ -186,9 +197,9 @@ export default function MatchScreen({ navigation, route }) {
                   }}
                 />
               </View>
-            )}
-          </View>
-        </View>
+            </View>
+          )}
+        </SafeAreaView>
       )}
     </LoveContext.Consumer>
   );
@@ -200,6 +211,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   backgroundblack: {
     backgroundColor: "#000",
@@ -246,7 +258,10 @@ const styles = StyleSheet.create({
   },
   matchbutton: {
     position: "absolute",
-    top: 100,
+    bottom: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   logotext: {

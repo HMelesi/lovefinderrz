@@ -1,12 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
-import { Icon } from "react-native-elements";
+import {
+  StyleSheet,
+  Text,
+  Image,
+  Button,
+  SafeAreaView,
+  Platform,
+} from "react-native";
 
 import LoveContext from "../context/LoveContext.js";
 
 import colors from "../config/colors";
-import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 export default function ProfileScreen({ navigation }) {
   const context = useContext(LoveContext);
@@ -20,7 +25,7 @@ export default function ProfileScreen({ navigation }) {
   return (
     <LoveContext.Consumer>
       {(context) => (
-        <View style={styles.background}>
+        <SafeAreaView style={styles.background}>
           <Image style={styles.profileimage} source={context.user.image} />
           <Text style={styles.titletext}>Name:</Text>
           <Text style={styles.contenttext}>{context.user.name}</Text>
@@ -31,7 +36,7 @@ export default function ProfileScreen({ navigation }) {
             title="LOGOUT"
             onPress={() => logout()}
           />
-        </View>
+        </SafeAreaView>
       )}
     </LoveContext.Consumer>
   );
@@ -43,7 +48,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 30,
+    paddingHorizontal: 30,
+    paddingBottom: 30,
+    paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   profileimage: {
     height: 240,
@@ -68,5 +75,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlign: "left",
     alignSelf: "flex-start",
+    marginBottom: 10,
   },
 });
