@@ -24,11 +24,12 @@ This app is published on Expo at:
 
 ## Screenshots
 
-![Welcome Screen](https://iili.io/doOeql.png){:height="30%" width="30%"}
+<img src="https://iili.io/doOeql.png" alt='Welcome Screen' width="100">
+<!-- ![Welcome Screen](https://iili.io/doOeql.png){:height="30%" width="30%"}
 ![User Choice Screen](https://iili.io/doOvgS.png){:height="30%" width="30%"}
 ![Matching Screen](https://iili.io/doOk12.png){:height="30%" width="30%"}
 ![Matches Screen](https://iili.io/doOwXf.png){:height="30%" width="30%"}
 ![Message Screen](https://iili.io/doOWen.png){:height="30%" width="30%"}
 ![Character Screen](https://iili.io/doOXbs.png){:height="30%" width="30%"}
 ![Unmatching](https://iili.io/doONs4.png){:height="30%" width="30%"}
-![User Screen](https://iili.io/doOjzG.png){:height="30%" width="30%"}
+![User Screen](https://iili.io/doOjzG.png){:height="30%" width="30%"} -->
