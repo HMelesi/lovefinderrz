@@ -36,7 +36,6 @@ export default function CharacterScreen({ navigation, route }) {
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
             style: "cancel",
           },
           { text: "Yes please", onPress: () => unmatch(characterProfile) },

@@ -8,6 +8,7 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
+import uuid from "uuid";
 
 import LoveContext from "../context/LoveContext.js";
 
@@ -22,7 +23,6 @@ export default function HeartScreen({ navigation, route }) {
 
   useEffect(() => {
     const remove = route.params.remove;
-    console.log(remove);
     if (remove === null) {
       setFavorites(faves);
     } else {
@@ -30,7 +30,6 @@ export default function HeartScreen({ navigation, route }) {
       const finalFaves = newFaves.filter((person) => {
         return person.profile.name !== remove.name;
       });
-      console.log(finalFaves);
       setFavorites(finalFaves);
     }
   }, [faves]);
@@ -50,7 +49,7 @@ export default function HeartScreen({ navigation, route }) {
     </TouchableOpacity>
   );
 
-  const renderItem = ({ item }) => <Item favorite={item} />;
+  const renderItem = (item, index) => <Item favorite={item} />;
 
   return favorites.length === 0 ? (
     <SafeAreaView style={styles.background}>
@@ -62,8 +61,8 @@ export default function HeartScreen({ navigation, route }) {
         <FlatList
           style={styles.matches}
           data={favorites}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => renderItem(item, index)}
+          keyExtractor={(item, index) => index.toString()}
           scrollsToTop={false}
         />
       </View>
