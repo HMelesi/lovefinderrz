@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { Icon } from "react-native-elements";
@@ -20,20 +20,28 @@ export default function MatchScreen({ navigation, route }) {
   const [disabled, setDisabled] = useState(false);
   const [first, setFirst] = useState(true);
   const [noMatchBool, setNoMatchBool] = useState(false);
-  const [potentials, setPotentials] = useState(characters);
+  const [potentials, setPotentials] = useState([]);
 
   useEffect(() => {
-    let potentialLength = potentials.length;
-    setNumber(potentialLength);
-    if (first) {
-      getRandomCharacter();
-    }
-  });
+    const getPotentialData = async () => {
+      const remaining = await characters.filter((char) => {
+        return checkFavorites(char);
+      });
+      setPotentials(remaining);
+      let potentialLength = remaining.length;
+      setNumber(potentialLength);
+    };
+    getPotentialData();
+  }, []);
 
-  // const resetMatches = () => {
-  //   character.favorites = [];
-  //   setPotentials(characters);
-  // };
+  const checkFavorites = (person) => {
+    let checkFavorites = [...favorites];
+    checkFavorites = checkFavorites.filter((fave) => {
+      return fave.profile.name !== person.name;
+    });
+    return checkFavorites.length === favorites.length;
+    //returns true if character is not in favorites already
+  };
 
   const removeFromPotentials = (person) => {
     const spreadPotentials = [...potentials];
@@ -41,6 +49,7 @@ export default function MatchScreen({ navigation, route }) {
       (potential) => potential.name !== person.name
     );
     setPotentials(newPotentials);
+    setNumber(newPotentials.length);
   };
 
   const getRandomCharacter = () => {
@@ -64,7 +73,7 @@ export default function MatchScreen({ navigation, route }) {
       setDisabled(true);
       setFirst(false);
     } else if (potentials.length === 0) {
-      alert("No more matches! :(");
+      navigation.navigate("NoMoreMatchesScreen");
     } else {
       const random = Math.floor(Math.random() * number);
       const randomCharacter = potentials[random];
@@ -78,18 +87,14 @@ export default function MatchScreen({ navigation, route }) {
       removeFromPotentials(character);
       getRandomCharacter();
     } else if (icon === "heart") {
-      let checkFavorites = [...favorites];
-      checkFavorites = checkFavorites.filter((fave) => {
-        return fave.profile.name !== character.name;
-      });
-
-      if (checkFavorites.length === favorites.length) {
+      if (checkFavorites(character)) {
         removeFromPotentials(character);
         const newFaveObj = { profile: character };
         const newFavorites = [...favorites, newFaveObj];
         userData.favorites = newFavorites;
         getRandomCharacter();
       } else {
+        removeFromPotentials(character);
         console.log("already matched");
       }
     } else if (icon === "message") {
@@ -141,7 +146,17 @@ export default function MatchScreen({ navigation, route }) {
           )}
 
           <View style={styles.buttons}>
-            {noMatchBool || Object.keys(character).length === 0 ? null : (
+            {noMatchBool || Object.keys(character).length === 0 ? (
+              <Icon
+                style={styles.icon}
+                name="favorite"
+                color={colors.lightblue}
+                size={40}
+                onPress={() => {
+                  getRandomCharacter();
+                }}
+              />
+            ) : (
               <View style={styles.iconrow}>
                 <Icon
                   style={styles.icon}

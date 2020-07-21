@@ -26,7 +26,11 @@ export default function WelcomeScreen({ navigation }) {
   const setAllUsers = context.setAllUsers;
 
   const wipeData = () => {
-    setAllUsers(users);
+    const newUsers = [...users];
+    const newerUsers = newUsers.map((user) => {
+      return { ...user, favorites: [] };
+    });
+    setAllUsers(newerUsers);
   };
 
   return (
