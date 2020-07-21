@@ -24,6 +24,7 @@ This app is published on Expo at:
 
 ## Screenshots
 
+<div style="display:flex, flex-direction:row, flex-wrap:wrap">
 <img src="https://iili.io/doOeql.png" alt='Welcome Screen' width="200">
 <img src="https://iili.io/doOvgS.png" alt='User Choice Screen' width="200">
 <img src="https://iili.io/doOk12.png" alt='Matching Screen' width="200">
@@ -32,3 +33,4 @@ This app is published on Expo at:
 <img src="https://iili.io/doOXbs.png" alt='Character Screen' width="200">
 <img src="https://iili.io/doONs4.png" alt='Unmatching' width="200">
 <img src="https://iili.io/doOjzG.png" alt='User Screen' width="200">
+</div>

@@ -14,7 +14,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import uuid from "react-native-uuid";
 import getCurrentTime from "../utils/utils";
 
 import LoveContext from "../context/LoveContext.js";
@@ -50,7 +49,7 @@ export default function MessageScreen({ navigation, route }) {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const usermessageObj = {
-      id: uuid.v1(),
+      id: Math.random().toString(),
       text: msg,
       type: "user",
       time: getCurrentTime(),
@@ -69,7 +68,7 @@ export default function MessageScreen({ navigation, route }) {
       const messRandom = Math.floor(Math.random() * numberPhrases);
 
       const charactermessageObj = {
-        id: uuid.v1(),
+        id: Math.random().toString(),
         text: characterProfile.messages[messRandom],
         type: "character",
         time: getCurrentTime(),
